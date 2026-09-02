@@ -1,0 +1,33 @@
+### GET /tasks
+http://localhost:5000/tasks
+
+### GET /tasks/:id
+http://localhost:5000/tasks/123
+
+### POST /tasks
+POST http://localhost:5000/tasks
+Content-Type: application/json
+
+{
+  "title":"Design e-bud backend",
+  "description":"Design and start building the e-bud project's frontend and backend",
+  "priority":"high"
+}
+
+### PUT /tasks/:id
+PUT http://localhost:5000/tasks/2c52e0d7-4ab4-4ddd-b8fe-867298c8ea9f
+Content-Type: application/json
+
+{
+  "priority": "medium",
+  "status": ""
+}
+
+### DELETE /tasks/:id
+DELETE http://localhost:5000/tasks/cad84d79-01cb-4ec4-83fc-45f4b0ec13f6
+
+### POST /auth/register
+POST http://localhost:5000/auth/register
+
+### POST /auth/login
+POST http://localhost:5000/auth/login

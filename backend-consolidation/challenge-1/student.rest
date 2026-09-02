@@ -1,0 +1,27 @@
+### GET /students
+GET http://localhost:5000/students
+
+### GET /students/:id
+GET http://localhost:5000/students/2
+
+### TEST POST 
+POST http://localhost:5000/students
+Content-Type: application/json
+
+   { "name": "Duff", "age": 19 }
+
+### UPDATE A STUDENT
+PUT http://localhost:5000/students/2
+Content-Type: application/json
+
+{
+  "name": "Bright",
+  "age": 20
+}
+
+### DELETE /students/:id
+
+DELETE http://localhost:5000/students/99
+
+### GET /students/?queryParameters
+GET http://localhost:5000/students/?sort=na

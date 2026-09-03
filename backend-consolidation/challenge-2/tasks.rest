@@ -28,6 +28,18 @@ DELETE http://localhost:5000/tasks/cad84d79-01cb-4ec4-83fc-45f4b0ec13f6
 
 ### POST /auth/register
 POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+  "username": "test_user",
+  "password": "test@123"
+}
 
 ### POST /auth/login
 POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+  "username": "asdfa",
+  "password": 123
+}

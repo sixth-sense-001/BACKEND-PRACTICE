@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 import tasks from '../public/data/tasks.js';
 import validateTaskMiddleware from '../middleware/validateTaskMiddleware.js';
 import authRoutes from '../routes/authRoutes.js';
+import authenticateMiddleware from '../middleware/authenticateMiddleware.js';
 
 dotenv.config();
 
@@ -122,6 +123,10 @@ app.delete('/tasks/:id', (req, res) => {
 });
 
 app.use('/auth',authRoutes);
+
+app.get('/profile', authenticateMiddleware, (req,res) => {
+  return res.status(200).json({message: "Hi there this is your profile."});
+});
 
 app.listen(PORT, () => {
   console.log(`Server successfully running on ${PORT}🚀✨`);

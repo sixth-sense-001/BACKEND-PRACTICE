@@ -5,6 +5,7 @@ import tasks from '../public/data/tasks.js';
 import validateTaskMiddleware from '../middleware/validateTaskMiddleware.js';
 import authRoutes from '../routes/authRoutes.js';
 import authenticateMiddleware from '../middleware/authenticateMiddleware.js';
+import prisma from '../lib/prismaClient.js';
 
 dotenv.config();
 

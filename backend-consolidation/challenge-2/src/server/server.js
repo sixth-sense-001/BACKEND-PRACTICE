@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import crypto from 'node:crypto';
-import tasks from '../public/data/tasks.js';
+// import tasks from '../public/data/tasks.js';
 import validateTaskMiddleware from '../middleware/validateTaskMiddleware.js';
 import authRoutes from '../routes/authRoutes.js';
 import authenticateMiddleware from '../middleware/authenticateMiddleware.js';
@@ -14,12 +14,14 @@ const PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 
-app.get('/tasks', (req, res) => {
+app.get('/tasks', async (req, res) => {
+  const tasks = await prisma.task.findMany();
   return res.status(200).json(tasks);
 });
 
-app.get('/tasks/:id', (req, res) => {
+app.get('/tasks/:id', async (req, res) => {
   const { id } = req.params;
+  const tasks = await prisma.task.findMany();
   const task = tasks.find(taskInstance => taskInstance.id === id);
   if (task) {
     return res.status(200).json(task);
@@ -28,30 +30,34 @@ app.get('/tasks/:id', (req, res) => {
   }
 });
 
-app.post('/tasks', validateTaskMiddleware, (req, res) => {
+app.post('/tasks', validateTaskMiddleware, async (req, res) => {
 
   const title = req.body.title;
   const description = req.body.description;
   const priority = req.body.priority;
+  const userId = req.body.userId;
 
   const newTask = {
-    id: crypto.randomUUID(),
     title,
     description,
     priority,
-    status: 'pending'
+    status: 'pending',
+    userId
   }
 
-  tasks.push(newTask);
+  const task = await prisma.task.create({
+    data: newTask
+  });
 
-  console.log(tasks);
+  console.log(task);
 
   return res.status(201).json({message: "New task created!"});
 
 });
 
-app.put('/tasks/:id', (req, res) => {
-  const { id } = req.params;
+app.put('/tasks/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  const tasks = await prisma.task.findMany();
   const index = tasks.findIndex(task => task.id === id);
   if (index !== -1) {
     const title = req.body.title;
@@ -60,14 +66,30 @@ app.put('/tasks/:id', (req, res) => {
     const status = req.body.status;
     if(title !== undefined) {
       if((typeof title === 'string')&&(title !== '')) {
-        tasks[index].title = title.trim();
+        const task = await prisma.task.update({
+          where: {
+            id: id
+          },
+          data: {
+            title: title.trim()
+          }
+        });
+        // tasks[index].title = title.trim();
       } else {
         return res.status(400).json({message: "400 Bad request"});
       }
     } 
     if(description !== undefined) {
       if((typeof description === 'string') && (description !== '')) {
-        tasks[index].description = description.trim();
+        const task = await prisma.task.update({
+          where: {
+            id: id
+          },
+          data: {
+            description: description.trim()
+          }
+        });
+        // tasks[index].description = description.trim();
       } else {
         return res.status(400).json({message: "400 Bad request"});
       }
@@ -75,7 +97,15 @@ app.put('/tasks/:id', (req, res) => {
     if(priority !== undefined) {
       if((typeof priority === 'string') && (priority.trim() !== '')) {
         if((priority.trim() === 'high') || (priority.trim() === 'medium') || (priority.trim() === 'low')) {
-          tasks[index].priority = priority.trim();
+          const task = await prisma.task.update({
+            where: {
+              id: id
+            },
+            data: {
+              priority: priority.trim()
+            }
+          });
+          // tasks[index].priority = priority.trim();
         } else {
           return res.status(400).json({message: "400 Bad request"});
         }
@@ -88,18 +118,27 @@ app.put('/tasks/:id', (req, res) => {
         return res.status(400).json({message: "Please select a valid status and then try again"});
       }
       if(((status.trim() === 'in-progress')&& (tasks[index].status === 'pending')) || ((status.trim() === 'completed')&&(tasks[index].status === 'in-progress'))) {
-        tasks[index].status = status.trim();
+        const task = await prisma.task.update({
+          where: {
+            id: id
+          },
+          data: {
+            status: status
+          }
+        });
+        // tasks[index].status = status.trim();
       } else if (status.trim() === 'pending') {
         return res.status(400).json({message: "Can not set the status of a property to pending after its creation!"});
       } else {
         return res.status(400).json({message: "400 Bad request"});
       }
     }
+    const tasks = await prisma.task.findMany();
     if ((title !== undefined) || (description!==undefined) || (priority!== undefined) || (status!==undefined)) {
-      console.log(tasks[index]);
+      console.log(tasks);
       return res.status(200).json({message: "Task successfully updated"});
     } else {
-      console.log(tasks[index]);
+      console.log(tasks);
       return res.status(400).json({message: "400 Bad request"})
     }
   } else {

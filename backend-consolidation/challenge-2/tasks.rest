@@ -11,11 +11,12 @@ Content-Type: application/json
 {
   "title":"Design e-bud backend",
   "description":"Design and start building the e-bud project's frontend and backend",
-  "priority":"high"
+  "priority":"high",
+  "userId": 6
 }
 
 ### PUT /tasks/:id
-PUT http://localhost:5000/tasks/2c52e0d7-4ab4-4ddd-b8fe-867298c8ea9f
+PUT http://localhost:5000/tasks/4
 Content-Type: application/json
 
 {

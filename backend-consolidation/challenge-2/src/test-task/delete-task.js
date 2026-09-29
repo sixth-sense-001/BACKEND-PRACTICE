@@ -9,7 +9,7 @@ try {
     }
     const task = await prisma.task.delete({
         where: {
-            id: 2
+            id: 4
         }
     }); 
     console.log('Task deleted successfully');

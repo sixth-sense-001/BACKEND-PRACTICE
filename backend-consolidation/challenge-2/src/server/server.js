@@ -59,6 +59,17 @@ app.put('/tasks/:id', async (req, res) => {
   const id = Number(req.params.id);
   const tasks = await prisma.task.findMany();
   const index = tasks.findIndex(task => task.id === id);
+  let task;
+  try {
+    task = await prisma.task.findUnique({
+      where: {
+        id: id
+      }
+    });
+  } catch ( error ) {
+    console.log(`Database operation failed! \n ${error}`);
+    return res.status(400).json({message: "Task with the given id not found"});
+  }
   if (index !== -1) {
     const title = req.body.title;
     const description = req.body.description;
@@ -97,7 +108,7 @@ app.put('/tasks/:id', async (req, res) => {
     if(priority !== undefined) {
       if((typeof priority === 'string') && (priority.trim() !== '')) {
         if((priority.trim() === 'high') || (priority.trim() === 'medium') || (priority.trim() === 'low')) {
-          const task = await prisma.task.update({
+          await prisma.task.update({
             where: {
               id: id
             },
@@ -114,10 +125,10 @@ app.put('/tasks/:id', async (req, res) => {
       }
     }
     if(status !== undefined) {
-      if(status.trim() === tasks[index].status) {
+      if(status.trim() === task.status) {
         return res.status(400).json({message: "Please select a valid status and then try again"});
       }
-      if(((status.trim() === 'in-progress')&& (tasks[index].status === 'pending')) || ((status.trim() === 'completed')&&(tasks[index].status === 'in-progress'))) {
+      if(((status.trim() === 'In-progress')&& (task.status === 'Pending')) || ((status.trim() === 'Completed')&&(tasks.status === 'In-progress'))) {
         const task = await prisma.task.update({
           where: {
             id: id
@@ -127,7 +138,7 @@ app.put('/tasks/:id', async (req, res) => {
           }
         });
         // tasks[index].status = status.trim();
-      } else if (status.trim() === 'pending') {
+      } else if (status.trim() === 'Pending') {
         return res.status(400).json({message: "Can not set the status of a property to pending after its creation!"});
       } else {
         return res.status(400).json({message: "400 Bad request"});
@@ -146,17 +157,41 @@ app.put('/tasks/:id', async (req, res) => {
   }
 });
 
-app.delete('/tasks/:id', (req, res) => {
-  const { id } = req.params
+app.delete('/tasks/:id', async(req, res) => {
+  const id  = Number(req.params.id);
   if(id) {
-    const index = tasks.findIndex(task => task.id === id);
-    if(index !== -1) {
-      tasks.splice(index, 1);
-      console.log(tasks);
-      return res.status(200).json({message: "Task has been successfully deleted"});
-    } else {
-      return res.status(404).json({message: "Task with the given id could not be found!"});
+    try {
+      const task = await prisma.task.findUnique({
+        where: {
+          id: id
+        }
+      });
+    } catch ( error ) {
+      console.log(`Database operation failed! \n ${error}`);
+      return res.status(400).json({message: "Task with the given id not found"});
     }
+    // const index = tasks.findIndex(task => task.id === id);
+    // if(index !== -1) {
+    //   tasks.splice(index, 1);
+    //   console.log(tasks);
+    //   return res.status(200).json({message: "Task has been successfully deleted"});
+    // } else {
+    //   return res.status(404).json({message: "Task with the given id could not be found!"});
+    // }
+    await prisma.task.delete({
+      where: {
+        id: id
+      }
+    });
+
+    console.log('Task successfully deleted!');
+
+
+    const tasks = await prisma.task.findMany();
+    console.log(tasks);
+
+    return res.status(200).json({message: "Task successfully deleted"});
+
   } else {
     return res.status(400).json({message: "400 Bad request"});
   }

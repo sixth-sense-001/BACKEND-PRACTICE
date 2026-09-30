@@ -3,7 +3,7 @@ try {
     await prisma.$connect();
     const user = await prisma.user.delete({
         where: {
-            username: 'bright'
+            username: 'test_user2'
         }
     });
     console.log(`Deleted the user with these credentials \n ${user}`);

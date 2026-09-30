@@ -46,4 +46,4 @@ Content-Type: application/json
 
 ### GET /profile (protected)
 GET http://localhost:5000/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiYTBlNGU5OS01NWNmLTQ2YjYtOGVkNi0yNzY3MGM1MmZmMDEiLCJ1c2VybmFtZSI6InRlc3RfdXNlciIsImlhdCI6MTc4ODg0ODM4OCwiZXhwIjoxNzkxNDQwMzg4fQ.w_MqDBP83b4DnNdOKxq32l51O7pu_fAffyuOPjPPkK8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc5MDc1OTE5NSwiZXhwIjoxNzkzMzUxMTk1fQ.tt9T9CZMQObBDwXDbEdB6_sHPoON-19Rh-3myNmIeos

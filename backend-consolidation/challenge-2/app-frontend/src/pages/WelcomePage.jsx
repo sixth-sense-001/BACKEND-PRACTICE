@@ -1,12 +1,10 @@
-import { Link } from 'react-router-dom';
+import  Navbar  from '../components/Navbar';
 
 const WelcomePage = () => {
     return (
-        <>
+        <>  
+            <Navbar />
             <p>This is the Welcome page</p>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Create account</Link>
-            <Link to="/tasks">Tasks</Link>
         </>
     );
 }

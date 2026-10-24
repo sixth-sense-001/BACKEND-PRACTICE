@@ -3,11 +3,11 @@ import '../styles/navbar.css'
 
 const Navbar = () => {
     return (
-        <nav class="navbar">
-            <Link to="/home">Home</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Create account</Link>
-            <Link to="/tasks">Tasks</Link>
+        <nav className="navbar">
+            <Link to="/home" className="navLink">Home</Link>
+            <Link to="/login" className="navLink">Login</Link>
+            <Link to="/signup" className="navLink">Create account</Link>
+            <Link to="/tasks" className="navLink">Tasks</Link>
         </nav>
     )
 }

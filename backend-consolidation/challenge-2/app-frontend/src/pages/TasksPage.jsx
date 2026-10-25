@@ -1,14 +1,25 @@
 import Navbar from '../components/Navbar.jsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const TasksPage = () => {
+    const [tasks, setTasks] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState({});
     useEffect(() => {
         async function fetchData() {
             try {
-                let data = await fetch('https://animated-waddle-v6ww969gqq94c6wxv-5000.app.github.dev/tasks');
-                console.log(JSON.parse(data));
-            } catch ( error ) {
+                let response = await fetch('/api/tasks');
+                if (!response.ok) {
+                    throw new Error(`Request failed: ${response.status}`);
+                }
+                const data = await response.json();
+                setTasks(data);
+                console.log(data);
+            } catch (error) {
                 console.log(`An error occured! \n ${error}`);
+                setError(error);
+            } finally {
+                setIsLoading(false);
             }
         }
         fetchData();
@@ -17,7 +28,13 @@ const TasksPage = () => {
     return (
         <>
             <Navbar />
-            <p>This is the Tasks page</p>
+            {
+                isLoading
+                    ? <p>Loading tasks...</p>
+                    : error.length > 0
+                        ? <p>Request failed: {error}</p>
+                        : <p>Tasks loaded: {tasks.length}</p>
+            }
         </>
     );
 }

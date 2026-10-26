@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 const TasksPage = () => {
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState({});
+    const [error, setError] = useState('');
     useEffect(() => {
         async function fetchData() {
             try {
@@ -17,7 +17,7 @@ const TasksPage = () => {
                 console.log(data);
             } catch (error) {
                 console.log(`An error occured! \n ${error}`);
-                setError(error);
+                setError(error.message);
             } finally {
                 setIsLoading(false);
             }
@@ -32,7 +32,7 @@ const TasksPage = () => {
                 isLoading
                     ? <p>Loading tasks...</p>
                     : error.length > 0
-                        ? <p>Request failed: {error}</p>
+                        ? <p>{error}</p>
                         : <p>Tasks loaded: {tasks.length}</p>
             }
         </>

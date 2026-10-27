@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar.jsx';
+import TaskCard from '../components/TaskCard.jsx';
 import { useEffect, useState } from 'react';
 
 const TasksPage = () => {
@@ -33,7 +34,9 @@ const TasksPage = () => {
                     ? <p>Loading tasks...</p>
                     : error.length > 0
                         ? <p>{error}</p>
-                        : <p>Tasks loaded: {tasks.length}</p>
+                        : tasks.length === 0
+                            ? <p>No tasks available, please create a task.</p>
+                            : <TaskCard task= {tasks} number={tasks.length+1}/>
             }
         </>
     );

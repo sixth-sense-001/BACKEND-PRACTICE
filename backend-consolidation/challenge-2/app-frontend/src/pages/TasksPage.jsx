@@ -36,7 +36,7 @@ const TasksPage = () => {
                         ? <p>{error}</p>
                         : tasks.length === 0
                             ? <p>No tasks available, please create a task.</p>
-                            : <TaskCard task= {tasks} number={tasks.length+1}/>
+                            : tasks.map((task, index) => <TaskCard key={task.id} task={task} number={index+1}/>)
             }
         </>
     );

@@ -9,10 +9,10 @@ POST http://localhost:5000/tasks
 Content-Type: application/json
 
 {
-  "title":"Design e-bud backend",
-  "description":"Design and start building the e-bud project's frontend and backend",
-  "priority":"high",
-  "userId": 6
+  "title":"Start working on Cybersecurity",
+  "description":"Start studying cybersecurity by this week.",
+  "priority":"low",
+  "userId": 1
 }
 
 ### PUT /tasks/:id

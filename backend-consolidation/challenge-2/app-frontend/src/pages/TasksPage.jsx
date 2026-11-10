@@ -1,6 +1,7 @@
 import Navbar from '../components/Navbar.jsx';
 import TaskCard from '../components/TaskCard.jsx';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const TasksPage = () => {
     const [tasks, setTasks] = useState([]);
@@ -38,6 +39,8 @@ const TasksPage = () => {
                             ? <p>No tasks available, please create a task.</p>
                             : tasks.map((task, index) => <TaskCard key={task.id} task={task} number={index+1}/>)
             }
+            {/*Link to test the task form */}
+            <Link to="/taskform">Task form</Link>
         </>
     );
 }

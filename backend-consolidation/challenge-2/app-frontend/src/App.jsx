@@ -5,16 +5,18 @@ import SignupPage from './pages/SignupPage.jsx';
 import WelcomePage from './pages/WelcomePage.jsx';
 import TasksPage from './pages/TasksPage.jsx';
 import HomePage from './pages/HomePage.jsx';
+import TaskForm from './components/TaskForm.jsx';
 
 const App = () => {
   return (
     <Routes>
-      <Route index element={<WelcomePage />}/>
-      <Route path="/home" element={ <HomePage />}/>
-      <Route path="/login" element={<LoginPage />}/>
-      <Route path="/signup" element={<SignupPage />}/>
-      <Route path="/tasks" element={<TasksPage />}/>
-      <Route path ="*" element={<NotFoundPage />}/>
+      <Route index element={<WelcomePage />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/tasks" element={<TasksPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+      <Route path="/taskform" element={<TaskForm />} />
     </Routes>
   );
 }

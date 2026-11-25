@@ -6,33 +6,44 @@
     background-color: white;
     color: black;
     width: 70%;
-    height: 400px;
-    padding-right:0;
+    height: 480px;
+    padding-right: 0;
     padding-left: 0;
     padding-bottom: 30px;
     margin-left: 10vw;
     border-radius: 20px;
 }
-.task-form-title p, .task-form-description p, .task-form-priority p{
+
+.task-form-title p,
+.task-form-description p,
+.task-form-priority p {
     display: flex;
     align-items: center;
     gap: 12px;
 }
+
 .task-form-description input {
     height: 70px;
     width: 500px;
 }
-.task-form input, select {
+
+.task-form input, select, textarea {
     border-radius: 10px;
     /* border: none; */
     background-color: whitesmoke;
-    border-color:#057208;
+    border-color: #057208;
     color: black;
 }
-.task-form-priority select, .task-form-title input {
+.task-form input:focus, .task-form select:focus, .task-form textarea:focus {
+    outline: 2px solid rgba(5,144,8,0.2);
+    border-color: rgb(10, 228, 126);
+}
+.task-form-priority select,
+.task-form-title input {
     height: 30px;
     width: 500px;
 }
+
 .create-task-button {
     margin-top: 20px;
     padding: 10px;
@@ -45,18 +56,22 @@
     border: none;
     background-color: green;
 }
+
 .task-form-header-line {
-    width:500px;
-    margin-left:310px;
+    width: 500px;
+    margin-left: 310px;
     margin-right: 315px;
 }
+
 .task-form-header {
     display: flex;
     margin-right: 250px;
 }
+
 .task-form-header h5 {
     color: grey;
 }
+
 .task-form-header-plus-sign {
     width: 80px;
     height: 80px;
@@ -72,4 +87,25 @@
     line-height: 1;
     transform: translateY(1px);
     font-size: 30px;
+}
+
+.task-form-description textarea {
+    width: 500px;
+    min-height: 90px;
+    padding: 12px 15px;
+
+    border-radius: 10px;
+    border: 1px solid #057208;
+
+    background-color: whitesmoke;
+    color: black;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    box-sizing: border-box;
+    resize: vertical;
+}
+.remove-message {
+    opacity: 0
 }

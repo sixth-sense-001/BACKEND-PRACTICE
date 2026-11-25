@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
 import '../styles/TaskForm.css';
 
-const TaskForm = () => {
+const TaskForm = ({ onCreateTask }) => {
 
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         priority: 'medium'
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    useEffect (() => {
+    useEffect(() => {
         console.log(formData);
-    },[formData]);
+    }, [formData]);
 
 
     const handleChange = (event) => {
@@ -23,8 +26,37 @@ const TaskForm = () => {
         console.log(value);
     };
 
-    const handleSubmit = () => {
-        console.log('Submitting...');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSuccessMessage('');
+        setErrorMessage('');
+        setIsSubmitting(true);
+        try {
+            await onCreateTask(formData);
+            setSuccessMessage('Task successfully created!');
+            handleResponseMessage();
+            setFormData({
+                title: '',
+                description: '',
+                priority: 'medium'
+            });
+        } catch (error) {
+            console.log(error);
+            setErrorMessage(error.message);
+        } finally {
+            setIsSubmitting(false);
+        }
+        setFormData({
+            title: '',
+            description: '',
+            priority: 'medium'
+        });
+    }
+
+    function handleResponseMessage () {
+        setTimeout(() => {
+            document.querySelector('.response-message').classList.add('remove-message');
+        },1000);
     }
 
     return (
@@ -37,29 +69,33 @@ const TaskForm = () => {
                         <h5>Add a new task to your list</h5>
                     </div>
                 </div>
-                <hr className="task-form-header-line"/>
+                <hr className="task-form-header-line" />
                 <div className="task-form-title">
                     <p>Title</p>
                     <input
                         type="text" size={50}
                         placeholder="    e.g. Learn React "
                         name="title"
+                        value={formData.title}
                         onChange={handleChange}
+                        required
                     />
                 </div>
                 <div className="task-form-description">
                     <p>Description</p>
-                    <input
+                    <textarea
                         type="text"
                         size={50}
+                        rows={4}
                         placeholder="    Add more details..."
                         name="description"
                         onChange={handleChange}
+                        required
                     />
                 </div>
                 <div className="task-form-priority">
                     <p>Priority</p>
-                    <select 
+                    <select
                         name="priority"
                         value={formData.priority}
                         onChange={handleChange}
@@ -69,7 +105,27 @@ const TaskForm = () => {
                         <option value="high">High</option>
                     </select>
                 </div>
-                <button className="create-task-button">+ Create Task</button>
+                <button
+                    type="submit"
+                    className="create-task-button"
+                    disabled={isSubmitting}
+                >
+                    {
+                        isSubmitting
+                            ? "Creating task..."
+                            : "+ Create Task"
+                    }
+                </button>
+                {
+                    successMessage && (
+                        <p className="response-message">{successMessage}</p>
+                    )
+                }
+                {
+                    errorMessage && (
+                        <p className="response-message">{errorMessage}</p>
+                    )
+                }
             </form>
         </>
     );
